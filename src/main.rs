@@ -1,8 +1,8 @@
-use crate::modules::Module;
-mod modules;
+use crate::module::Module;
+mod module;
+mod utils;
 
 fn main() -> Result<(), std::io::Error> {
-    println!("Hello, world!");
     let modu = Module::new(String::from("linkedlist"))?;
     let _ = modu.install()?;
     Ok(())
