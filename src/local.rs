@@ -10,7 +10,7 @@ pub struct LocalModules {
 }
 
 impl LocalModules {
-    pub fn new() -> Result<LocalModules, Error> {
+    pub fn new() -> Result<LocalModules, ModuleError> {
         let installed: HashSet<Module> = read_lines_to_collection::<HashSet<String>>
             (INSTALLED_LIBRARIES_FILE)?
             .into_iter()

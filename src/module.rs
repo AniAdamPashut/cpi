@@ -6,29 +6,24 @@ use crate::utils::*;
 
 #[derive(Debug)]
 pub struct Module {
-    pub dependencies: HashSet<String>,
+    pub dependencies: HashSet<Module>,
     pub name: String,
     pub path: String
 }
 
 impl Module {
-    pub fn new(name: String) -> Result<Module, Error> {
+    pub fn new(name: String) -> Result<Module, ModuleError> {
         let path = format!("{}/{}", PATH, name);
-        let path_to_file = format!("{path}/{}", DEPENDENCIES_FILE);
-        let dependencies: HashSet<String> = read_lines_to_collection(path_to_file.as_str())?;
+        let dependencies_path = format!("{}/dependencies", path);
+        let dependencies: HashSet<Module> = read_subdirs_to_collection(dependencies_path.as_str())?;
         let module = Module {
             name: name,
             path: path,
             dependencies: dependencies
         };
 
-        if !does_module_exist(&module) {
-            return Err(
-                Error::new(
-                    std::io::ErrorKind::NotFound, 
-                    "Module doesn't exist in db"
-                )
-            )
+        if does_module_exist(&module).is_err() {
+            return Err(ModuleError::ModuleNotExist);
         }
         Ok(module)
     }
@@ -55,10 +50,7 @@ impl Module {
         if self.dependencies.is_empty() {
             return Ok(());
         }
-        for dependency in &self.dependencies {
-            let dependency_module = Module::new(dependency.to_owned())?;
-            dependency_module.install()?;
-        }
+        self.dependencies.iter().for_each(|f| f.install().unwrap());
         Ok(())
     }
 }
