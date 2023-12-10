@@ -1,6 +1,7 @@
 use std::io::Error;
 use std::collections::HashSet;
 use crate::module::Module;
+use crate::module::ModuleError;
 use crate::utils::*;
 
 

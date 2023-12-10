@@ -2,18 +2,7 @@ use std::fs;
 use std::collections::HashSet;
 use std::path::PathBuf;
 use crate::module::Module;
-
-#[derive(Debug)]
-pub enum ModuleError {
-    Io(std::io::Error),
-    ModuleNotExist
-}
-
-impl From<std::io::Error> for ModuleError {
-    fn from(value: std::io::Error) -> Self {
-        return ModuleError::Io(value);
-    }
-}
+use crate::module::ModuleError;
 
 pub const PATH: &str = "/opt/clibs";
 pub const INSTALLED_LIBRARIES_FILE: &str = "./.cpi/installed.txt";
