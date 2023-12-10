@@ -10,15 +10,15 @@ pub const PATH: &str = "/opt/clibs";
 pub const METADATA_FOLDER: &str = "./.cpi/";
 const VERSION_PATH: &str = "version";
 
-pub fn read_lines_to_collection<T: FromIterator<String>>(filename: &str) -> Result<T, ModuleError> {
-    Ok(
-        fs::read_to_string(filename)?
-        .split("\n")
-        .map(|it: &str| it.to_owned())
-        .filter(|it: &String| !it.is_empty())
-        .collect()
-    )
-}
+// pub fn read_lines_to_collection<T: FromIterator<String>>(filename: &str) -> Result<T, ModuleError> {
+//     Ok(
+//         fs::read_to_string(filename)?
+//         .split("\n")
+//         .map(|it: &str| it.to_owned())
+//         .filter(|it: &String| !it.is_empty())
+//         .collect()
+//     )
+// } // Maybe well need it later
 
 pub fn read_subdirs_to_collection<T: FromIterator<String>>(dirname: &str) -> Result<T, std::io::Error> {
     fn is_directory(p: PathBuf) -> Option<PathBuf> {

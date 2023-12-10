@@ -3,10 +3,10 @@ use std::fs;
 use std::hash::{Hash, Hasher};
 use std::collections::HashSet;
 use crate::utils::*;
-use crate::version::Version;
+use crate::version::{Version, VersionOptions};
 use super::ModuleError;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Module {
     pub dependencies: HashSet<Module>,
     pub version: Version,
@@ -61,6 +61,10 @@ impl Module {
         }
         self.dependencies.iter().for_each(|f| f.install().unwrap());
         Ok(())
+    }
+
+    pub fn update(&mut self, opt: VersionOptions) {
+        self.version.increment(opt);
     }
 }
 

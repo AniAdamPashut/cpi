@@ -8,9 +8,10 @@ mod utils;
 mod local;
 
 fn main() -> Result<(), ModuleError> {
-    let local = LocalModules::new()?;
-    let modu = Module::new(String::from("linkedlist"))?;
-    let _ = local.install_module(&modu)?;
-    
+    let mut local = LocalModules::new()?;
+    let mut modu = Module::new(String::from("linkedlist"))?;
+    let _ = local.install_module(modu.clone())?;
+    modu.update(version::VersionOptions::Feature);
+    println!("{:?}", modu);
     Ok(()) 
 }

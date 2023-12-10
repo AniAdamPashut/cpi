@@ -26,10 +26,16 @@ impl LocalModules {
     fn is_module_installed(&self, module: &Module) -> bool {
         return self.installed.contains(module);
     }
-    pub fn install_module(&self, module: &Module) -> Result<(), Error> {
-        if !self.is_module_installed(module) {
+    pub fn install_module(&mut self, module: Module) -> Result<(), Error> {
+        if !self.is_module_installed(&module) {
             println!("Installing {}", module.name);
-            return module.install();
+            match module.install() {
+                Ok(()) => {
+                    self.installed.insert(module);
+                    return Ok(());
+                },
+                Err(e) => return Err(e)
+            }
         }
         println!("The module {} is already installed", module.name);
         Ok(())

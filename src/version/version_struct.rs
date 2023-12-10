@@ -1,6 +1,6 @@
 use super::VersionOptions;
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct Version {
     major: u32,
     minor: u32,
