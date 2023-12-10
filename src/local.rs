@@ -12,10 +12,10 @@ pub struct LocalModules {
 
 impl LocalModules {
     pub fn new() -> Result<LocalModules, ModuleError> {
-        let installed: HashSet<Module> = read_lines_to_collection::<HashSet<String>>
-            (INSTALLED_LIBRARIES_FILE)?
+        let installed: HashSet<Module> = read_subdirs_to_collection::<HashSet<String>>
+            (METADATA_FOLDER)?
             .into_iter()
-            .map(|it: String| Module::new(it).unwrap()) // TODO unwrap
+            .map(|it| Module::new(it).unwrap())
             .collect();
         println!("{:?}", installed);
         Ok(LocalModules {

@@ -3,11 +3,13 @@ use std::fs;
 use std::hash::{Hash, Hasher};
 use std::collections::HashSet;
 use crate::utils::*;
+use crate::version::Version;
 use super::ModuleError;
 
 #[derive(Debug)]
 pub struct Module {
     pub dependencies: HashSet<Module>,
+    pub version: Version,
     pub name: String,
     pub path: String
 }
@@ -16,13 +18,19 @@ impl Module {
     pub fn new(name: String) -> Result<Module, ModuleError> {
         let path = format!("{}/{}", PATH, name);
         let dependencies_path = format!("{}/dependencies", path);
-        let dependencies: HashSet<Module> = read_subdirs_to_collection(dependencies_path.as_str())?;
+        let dependencies: HashSet<Module> = 
+            read_subdirs_to_collection::<HashSet<String>>(dependencies_path.as_str())?
+            .into_iter()
+            .map(|it| Module::new(it).unwrap())
+            .collect();
+        let version: Version = get_version_of_module(&path)?;
         let module = Module {
+            version: version,
             name: name,
             path: path,
             dependencies: dependencies
         };
-
+        
         if does_module_exist(&module).is_err() {
             return Err(ModuleError::ModuleNotExist);
         }
