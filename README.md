@@ -1,7 +1,7 @@
 # C Package Index
 
 > Just a simple cli tool to manage packages in c
->> (kinda like pip)
+> (kinda like pip)
 
 ## Todo
 - Make code rustier
