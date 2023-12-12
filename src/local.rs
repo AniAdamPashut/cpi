@@ -1,7 +1,6 @@
 use std::io::Error;
 use std::collections::HashSet;
-use crate::module::Module;
-use crate::module::ModuleError;
+use crate::module::{Module, ModuleError};
 use crate::utils::*;
 
 
@@ -26,12 +25,12 @@ impl LocalModules {
     fn is_module_installed(&self, module: &Module) -> bool {
         return self.installed.contains(module);
     }
-    pub fn install_module(&mut self, module: Module) -> Result<(), Error> {
-        if !self.is_module_installed(&module) {
+    pub fn install_module(&mut self, module: &Module) -> Result<(), Error> {
+        if !self.is_module_installed(module) {
             println!("Installing {}", module.name);
             match module.install() {
                 Ok(()) => {
-                    self.installed.insert(module);
+                    self.installed.insert(module.to_owned());
                     return Ok(());
                 },
                 Err(e) => return Err(e)
