@@ -19,6 +19,8 @@
 *the memes* <br>
 (to lazy to implement HashSet) <br>
 
+
+## How a module would be stored
 ```
 /module-name
     /0.1.0 # old version number
