@@ -76,7 +76,7 @@ impl Hash for Module {
 
 impl PartialEq for Module {
     fn eq(&self, other: &Self) -> bool {
-        return self.name == other.name;
+        return self.name == other.name && self.version == other.version;
     }
 }
 
