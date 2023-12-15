@@ -6,9 +6,10 @@
 ## Todo
 - Use TOML to store metadata
 - Make code rustier
-- Implement version tracking (ooo scary)
+- ~~Implement version tracking (ooo scary)~~
 - Maybe upload (instead of me manually moving files)
 - Get it on a server (currently it works locally)
+- Make the Module.install method better (kinda confused by it though less relevant for current progression)
 
 ## Motivation
 - im bored af
