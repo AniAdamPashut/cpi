@@ -27,7 +27,6 @@ impl Version {
         }
     }
 
-
     pub fn increment(&mut self, opt: VersionOptions) {
         match opt {
             VersionOptions::Bugfix => self.patch += 1,
