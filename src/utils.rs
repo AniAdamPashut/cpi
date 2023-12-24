@@ -1,5 +1,6 @@
 use std::fs;
 use std::collections::HashSet;
+use std::path::Path;
 use std::path::PathBuf;
 use crate::module::Module;
 use crate::module::ModuleError;
@@ -38,42 +39,15 @@ pub fn read_subdirs_to_collection<T: FromIterator<String>>(dirname: &str) -> Res
         )
         .map(
             |it| 
-            it.to_string_lossy()
-            .to_string()
-            .split("/")
-            .last()
-            .unwrap_or("")
+            it.file_name().unwrap()
             .to_owned()
+            .into_string().unwrap()
         )
-        .filter(|it| !it.is_empty())
+        .filter(|it: &String| !it.is_empty())
         .collect()
     )
 }
 
-pub fn does_module_exist(module: &Module) -> Result<(), ModuleError> {
-    let modules: HashSet<String> = read_subdirs_to_collection(PATH)?;
-    if modules.contains(&module.name) {
-        return Ok(());
-    } 
-    return Err(ModuleError::ModuleNotExist);
-}
-
-pub fn get_version_of_module(path: &String) -> Result<Version, VersionError> {
-    let file_path = format!("{path}/{}", VERSION_PATH);
-    let content: Vec<i32> = 
-        fs::read_to_string(file_path)?
-        .trim()
-        .split(".")
-        .map(|it| it.parse::<i32>().unwrap_or(-1))
-        .collect();
-    if content.len() != 3 {
-        return Err(VersionError::BadVersion)
-    }
-    return Ok(
-        Version::new(
-            content[0] as u32, 
-            content[1] as u32, 
-            content[2] as u32
-        )
-    )
+pub fn does_module_exist(path: &String) -> bool {
+    Path::new(path).is_dir()
 }

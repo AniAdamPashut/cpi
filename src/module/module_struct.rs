@@ -2,13 +2,16 @@ use std::io::Error;
 use std::fs;
 use std::hash::{Hash, Hasher};
 use std::collections::HashSet;
+
 use crate::utils::*;
 use crate::version::{Version, VersionOptions};
+
+use super::toml::{PackageManifest, Dependency};
 use super::ModuleError;
 
 #[derive(Debug, Clone)]
 pub struct Module {
-    pub dependencies: HashSet<Module>,
+    pub dependencies: HashSet<Dependency>,
     pub version: Version,
     pub name: String,
     pub path: String
@@ -17,24 +20,20 @@ pub struct Module {
 impl Module {
     pub fn new(name: String) -> Result<Module, ModuleError> {
         let path = format!("{}/{}", PATH, name);
-        let dependencies_path = format!("{}/dependencies", path);
-        let dependencies: HashSet<Module> = 
-            read_subdirs_to_collection::<HashSet<String>>(dependencies_path.as_str())?
-            .into_iter()
-            .map(|it| Module::new(it).unwrap())
-            .collect();
-        let version: Version = get_version_of_module(&path)?;
-        let module = Module {
-            version: version,
-            name: name,
-            path: path,
-            dependencies: dependencies
-        };
-        
-        if does_module_exist(&module).is_err() {
+        if !does_module_exist(&path) {
             return Err(ModuleError::ModuleNotExist);
         }
-        Ok(module)
+        let path_to_toml = format!("{}/metadata.toml", path);
+        let manifest_content = fs::read_to_string(path_to_toml)?;
+        let pkg: PackageManifest = toml::from_str(&manifest_content).unwrap();
+        Ok(
+            Module {
+                    dependencies: HashSet::from_iter(pkg.dependencies.into_iter()),
+                    version: Version::try_from(pkg.version)?,
+                    name: pkg.title,
+                    path: path
+            }
+        )
     }
 
     pub fn install(&self) -> Result<(), Error> {

@@ -1,4 +1,8 @@
+use core::num;
+
 use super::VersionOptions;
+use super::VersionError;
+
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Version {
@@ -40,5 +44,29 @@ impl Version {
                 self.patch = 0;
             }
         }
+    }
+}
+
+
+impl TryFrom<String> for Version {
+    type Error = VersionError;
+    fn try_from(name: String) -> Result<Self, Self::Error> {
+        let numbers: Vec<u32> = name
+        .split(".")
+        .into_iter()
+        .map(|it| it.parse::<i32>().unwrap_or(-1))
+        .filter_map(|it| it.try_into().ok())
+        .collect();
+        if numbers.len() != 3 {
+            return Err(VersionError::BadVersion);
+        }
+        Ok(
+            Version {
+                major: numbers[0],
+                minor: numbers[1],
+                patch: numbers[2]
+            }
+        )
+
     }
 }

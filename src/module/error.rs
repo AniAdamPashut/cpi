@@ -5,6 +5,7 @@ pub enum ModuleError {
     IoError(std::io::Error),
     ModuleNotExist,
     BadVersion,
+    MissingFile
 }
 
 impl From<std::io::Error> for ModuleError {
