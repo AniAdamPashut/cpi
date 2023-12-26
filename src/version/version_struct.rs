@@ -1,5 +1,3 @@
-use core::num;
-
 use super::VersionOptions;
 use super::VersionError;
 
@@ -50,22 +48,21 @@ impl Version {
 
 impl TryFrom<String> for Version {
     type Error = VersionError;
-    fn try_from(name: String) -> Result<Self, Self::Error> {
-        let numbers: Vec<u32> = name
+    fn try_from(version: String) -> Result<Self, Self::Error> {
+        let numbers: Vec<u32> = version
         .split(".")
-        .into_iter()
-        .map(|it| it.parse::<i32>().unwrap_or(-1))
-        .filter_map(|it| it.try_into().ok())
+        .filter_map(|it| it.parse::<u32>().ok())
         .collect();
         if numbers.len() != 3 {
             return Err(VersionError::BadVersion);
         }
+        let [maj, min, pat] = numbers[..] else {panic!("if we got here we screwed up real bad")};
+        // for the panic 
+        /* the vector should always has length of 3
+           if it has any length other then 3 it would trigger the panic.
+         */
         Ok(
-            Version {
-                major: numbers[0],
-                minor: numbers[1],
-                patch: numbers[2]
-            }
+            Version::new(maj, min, pat)
         )
 
     }

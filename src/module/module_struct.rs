@@ -28,7 +28,7 @@ impl Module {
         let pkg: PackageManifest = toml::from_str(&manifest_content).unwrap();
         Ok(
             Module {
-                    dependencies: HashSet::from_iter(pkg.dependencies.into_iter()),
+                    dependencies: HashSet::from_iter(pkg.dependencies.unwrap_or(Vec::new()).into_iter()),
                     version: Version::try_from(pkg.version)?,
                     name: pkg.title,
                     path: path

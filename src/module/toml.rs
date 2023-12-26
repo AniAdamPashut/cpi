@@ -7,7 +7,7 @@ use super::{ModuleError, Module};
 pub struct PackageManifest {
     pub title: String,
     pub version: String,
-    pub dependencies: Vec<Dependency>
+    pub dependencies: Option<Vec<Dependency>>
 }
 
 
