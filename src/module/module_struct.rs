@@ -6,7 +6,7 @@ use std::path::{PathBuf, Path};
 use crate::local::LocalManifest;
 use crate::version::Version;
 
-use super::toml::{PackageManifest, Dependency};
+use crate::toml::{PackageManifest, Dependency, TomlError};
 use super::ModuleError;
 
 const PATH: &str = "/opt/clibs";
@@ -50,7 +50,6 @@ impl Module {
             }
             Err(e) => return Err(e.into())
         }
-
         println!("Downloading {}", &self.name);
         let header = format!("{}/{}.h", self.path.display(), self.name);
         fs::copy(
@@ -63,10 +62,11 @@ impl Module {
             format!("./build/libs/objs/{}.so", self.name)
         )?;
 
-        match LocalManifest::update_in_manifest(self) {
+        match LocalManifest::add(self) {
             Ok(_) => Ok(()),
             Err(e) => {
-                self.uninstall();
+                println!("{:?}", e);
+                self.uninstall()?;
                 Err(e.into())
             }
         }
@@ -74,10 +74,21 @@ impl Module {
 
 
     /// # Panics
-    /// Panics if the wanted files has open file descriptors
-    pub fn uninstall(&self) {
-        fs::remove_file(Path::new(&format!("./build/libs/objs/{}.so", self.name))).unwrap();
-        fs::remove_file(Path::new(&format!("./build/libs/headers/{}.h", self.name))).unwrap();
+    pub fn uninstall(&self) -> Result<(), TomlError> {
+        match LocalManifest::is_installed(self) {
+            Ok(boolean) => {
+                if !boolean {
+                    println!("not installed");
+                    return Ok(())
+                }
+            },
+            Err(e) => return Err(e)
+        }
+        fs::remove_file(Path::new(&format!("./build/libs/objs/{}.so", self.name)))?;
+        fs::remove_file(Path::new(&format!("./build/libs/headers/{}.h", self.name)))?;
+
+        LocalManifest::remove(self)?;
+        Ok(())
     }
     
     fn install_dependencies(&self) -> Result<(), Error>{

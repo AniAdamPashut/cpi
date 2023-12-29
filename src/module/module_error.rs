@@ -1,4 +1,4 @@
-use crate::{version::VersionError, local::TomlError};
+use crate::{version::VersionError, toml::TomlError};
 
 #[derive(Debug)]
 pub enum ModuleError {
@@ -15,8 +15,8 @@ impl From<std::io::Error> for ModuleError {
     }
 }
 
-impl From<crate::local::TomlError> for ModuleError {
-    fn from(value: crate::local::TomlError) -> Self {
+impl From<TomlError> for ModuleError {
+    fn from(value: TomlError) -> Self {
         match value {
             TomlError::IoError(io) => ModuleError::IoError(io),
             TomlError::DeserializationError(err) => ModuleError::DeserializationError(err),

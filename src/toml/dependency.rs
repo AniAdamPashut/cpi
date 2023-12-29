@@ -1,14 +1,5 @@
 use serde::{Deserialize, Serialize};
-
-use super::{ModuleError, Module};
-
-#[derive(Deserialize)]
-#[derive(Debug)]
-pub struct PackageManifest {
-    pub title: String,
-    pub version: String,
-    pub dependencies: Option<Vec<Dependency>>
-}
+use crate::module::{Module, ModuleError};
 
 
 #[derive(Deserialize, Serialize)]
