@@ -4,6 +4,7 @@
 > (kinda like pip)
 
 ## Todo
+- add the frontend (cli)
 - Make code rustier
 - Get it on a server (currently it works locally)
 - Maybe upload (instead of me manually moving files)

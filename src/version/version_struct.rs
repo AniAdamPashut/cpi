@@ -1,3 +1,4 @@
+use std::fmt::Display;
 use super::VersionError;
 
 
@@ -29,13 +30,12 @@ impl Version {
     }
 }
 
-impl From<Version> for String {
-    fn from(version: Version) -> String {
-        format!("{}.{}.{}", version.major, version.minor, version.patch)
+
+impl Display for Version {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}.{}.{}", self.major, self.minor, self.patch)
     }
 }
-
-
 
 impl TryFrom<String> for Version {
     type Error = VersionError;

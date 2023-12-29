@@ -3,7 +3,7 @@ use std::fs;
 use std::collections::HashSet;
 use std::path::{PathBuf, Path};
 
-use crate::local::LocalManifest;
+use crate::local::LocalLibraries;
 use crate::version::Version;
 
 use crate::toml::{PackageManifest, Dependency, TomlError};
@@ -41,7 +41,7 @@ impl Module {
     pub fn install(&self) -> Result<(), ModuleError> {
         self.install_dependencies()?;
 
-        match LocalManifest::is_installed(self) {
+        match LocalLibraries::is_installed(self) {
             Ok(boolean) => {
                 if boolean {
                     println!("Installed already");
@@ -62,7 +62,7 @@ impl Module {
             format!("./build/libs/objs/{}.so", self.name)
         )?;
 
-        match LocalManifest::add(self) {
+        match LocalLibraries::add(self) {
             Ok(_) => Ok(()),
             Err(e) => {
                 println!("{:?}", e);
@@ -75,7 +75,7 @@ impl Module {
 
     /// # Panics
     pub fn uninstall(&self) -> Result<(), TomlError> {
-        match LocalManifest::is_installed(self) {
+        match LocalLibraries::is_installed(self) {
             Ok(boolean) => {
                 if !boolean {
                     println!("not installed");
@@ -87,7 +87,7 @@ impl Module {
         fs::remove_file(Path::new(&format!("./build/libs/objs/{}.so", self.name)))?;
         fs::remove_file(Path::new(&format!("./build/libs/headers/{}.h", self.name)))?;
 
-        LocalManifest::remove(self)?;
+        LocalLibraries::remove(self)?;
         Ok(())
     }
     
@@ -101,7 +101,7 @@ impl From<&Module> for Dependency {
     fn from(module: &Module) -> Dependency {
         Dependency {
             name: module.name.to_owned(),
-            version: module.version.into()
+            version: module.version.to_string()
         }
     }
 }

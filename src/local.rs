@@ -7,15 +7,15 @@ use crate::toml::{Dependency, TomlError};
 const METADATA_FILE: &str = "./cpi.toml";
 
 #[derive(Deserialize, Serialize)]
-pub struct LocalManifest {
+pub struct LocalLibraries {
     dependencies: Option<HashSet<Dependency>>
 }
 
 
-impl LocalManifest {
+impl LocalLibraries {
     pub fn is_installed(module: &Module) -> Result<bool, TomlError> {
         let content = fs::read_to_string(METADATA_FILE)?;
-        let manifest: LocalManifest = toml::from_str(&content)?;
+        let manifest: LocalLibraries = toml::from_str(&content)?;
         match manifest.dependencies {
             Some(dep) => Ok(dep.contains(&module.into())),
             None => Ok(false)
@@ -24,7 +24,7 @@ impl LocalManifest {
 
     pub fn add(module: &Module) -> Result<(), TomlError> {
         let content = fs::read_to_string(METADATA_FILE)?;
-        let mut manifest: LocalManifest = toml::from_str(&content)?;
+        let mut manifest: LocalLibraries = toml::from_str(&content)?;
         let mut dep = manifest.dependencies.unwrap_or(HashSet::new());
         dep.insert(module.into());
         manifest.dependencies = Some(dep);
@@ -35,7 +35,7 @@ impl LocalManifest {
 
     pub fn remove(module: &Module) -> Result<(), TomlError> {
         let content = fs::read_to_string(METADATA_FILE)?;
-        let mut manifest: LocalManifest = toml::from_str(&content)?;
+        let mut manifest: LocalLibraries = toml::from_str(&content)?;
         let mut dep = manifest.dependencies.unwrap_or(HashSet::new());
         dep.remove(&module.into());
         manifest.dependencies = Some(dep);
