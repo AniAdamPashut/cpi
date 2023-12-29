@@ -1,4 +1,4 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use super::{ModuleError, Module};
 
@@ -11,7 +11,7 @@ pub struct PackageManifest {
 }
 
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 #[derive(Debug, Clone, Hash, PartialEq, Eq)]
 pub struct Dependency {
     pub name: String,

@@ -1,7 +1,7 @@
-mod error;
+mod module_error;
 mod module_struct;
 mod toml;
 
-pub use error::ModuleError;
+pub use module_error::ModuleError;
 pub use module_struct::Module;
-pub use toml::PackageManifest;
+pub use toml::Dependency;

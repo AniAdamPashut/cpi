@@ -1,4 +1,3 @@
-use super::VersionOptions;
 use super::VersionError;
 
 
@@ -28,22 +27,14 @@ impl Version {
             patch: patch
         }
     }
+}
 
-    pub fn increment(&mut self, opt: VersionOptions) {
-        match opt {
-            VersionOptions::Bugfix => self.patch += 1,
-            VersionOptions::Feature => {
-                self.minor += 1;
-                self.patch = 0;
-            }
-            VersionOptions::Release => {
-                self.major += 1;
-                self.minor = 0;
-                self.patch = 0;
-            }
-        }
+impl From<Version> for String {
+    fn from(version: Version) -> String {
+        format!("{}.{}.{}", version.major, version.minor, version.patch)
     }
 }
+
 
 
 impl TryFrom<String> for Version {
