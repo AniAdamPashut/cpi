@@ -11,6 +11,34 @@
 - Get it on a server (currently it works locally)
 - ~~Make the Module.install method better (kinda confused by it though less relevant for current progression)~~
 
+
+## How does this work?
+### you should have a directory structure created by the cprojmgr
+
+### in the makefile:
+```makefile
+CC = gcc
+LANG = c
+SRC = ./src
+BUILD = ./build
+MAIN_EXEC = cprojmgr
+CFLAGS = -Wall -Iheaders -I${BUILD}/lib/headers -g -p
+LIBS = $(wildcard ${BUILD}/lib/objs/*.o)
+SUBDIRS = $(shell find $(SRC) -type d)
+FILES = $(wildcard $(addsuffix /*.${LANG},$(SUBDIRS)))
+OBJS = $(patsubst ${SRC}/%.${LANG}, ${BUILD}/objs/%.o, ${FILES})
+ALL_OBJS = ${LIBS} ${OBJS}
+
+all: ${MAIN_EXEC}
+
+${MAIN_EXEC}: ${ALL_OBJS}
+	${CC} ${ALL_OBJS} -o $@
+
+${BUILD}/objs/%.o: ${SRC}/%.c
+	${CC} ${CFLAGS} -c $< -o $@
+```
+
+
 ## Motivation
 - im bored af
 - why not?
