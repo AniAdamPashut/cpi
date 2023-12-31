@@ -4,10 +4,10 @@
 > (kinda like pip)
 
 ## Todo
-- add the frontend (cli)
+- add the frontend (cli) (like pacman)
 - Make code rustier
-- Get it on a server (currently it works locally)
-- Maybe upload (instead of me manually moving files)
+- Get it on a server
+- Maybe upload
 - ~~Use TOML to store metadata~~
 - ~~Implement version tracking (ooo scary)~~
 - ~~Make the Module.install method better (kinda confused by it though less relevant for current progression)~~
@@ -22,9 +22,9 @@ CC = gcc
 LANG = c
 SRC = ./src
 BUILD = ./build
-MAIN_EXEC = cprojmgr
-CFLAGS = -Wall -Iheaders -I${BUILD}/lib/headers -g -p
-LIBS = $(wildcard ${BUILD}/lib/objs/*.o)
+MAIN_EXEC = example
+CFLAGS = -Wall -Iheaders -I${BUILD}/libs/headers -g
+LIBS = $(wildcard ${BUILD}/libs/objs/*.so)
 SUBDIRS = $(shell find $(SRC) -type d)
 FILES = $(wildcard $(addsuffix /*.${LANG},$(SUBDIRS)))
 OBJS = $(patsubst ${SRC}/%.${LANG}, ${BUILD}/objs/%.o, ${FILES})

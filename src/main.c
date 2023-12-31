@@ -2,7 +2,7 @@
 
 #include "linkedlist.h"
 
-int main()
+int main() 
 {
     Node *lst = node(0, NULL);
     printf("%p\n", lst);

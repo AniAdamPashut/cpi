@@ -6,8 +6,19 @@ use crate::toml::{Dependency, TomlError};
 
 const METADATA_FILE: &str = "./cpi.toml";
 
+///
+/// ## This struct is only here so serde wouldnt override these values when serializing
+/// 
+#[derive(Deserialize, Serialize)]
+struct Package {
+    name: String,
+    version: String,
+    author: Option<String>
+}
+
 #[derive(Deserialize, Serialize)]
 pub struct LocalLibraries {
+    package: Package,
     dependencies: Option<HashSet<Dependency>>
 }
 

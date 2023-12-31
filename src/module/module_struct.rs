@@ -39,8 +39,7 @@ impl Module {
     }
 
     pub fn install(&self) -> Result<(), ModuleError> {
-        self.install_dependencies()?;
-
+        
         match LocalLibraries::is_installed(self) {
             Ok(boolean) => {
                 if boolean {
@@ -50,6 +49,7 @@ impl Module {
             }
             Err(e) => return Err(e.into())
         }
+        self.install_dependencies()?;
         println!("Downloading {}", &self.name);
         let header = format!("{}/{}.h", self.path.display(), self.name);
         fs::copy(
