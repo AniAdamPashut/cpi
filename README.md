@@ -5,6 +5,7 @@
 
 ## Todo
 - add the frontend (cli) (like pacman)
+- split code to workspaces
 - Make code rustier
 - Get it on a server
 - Maybe upload
