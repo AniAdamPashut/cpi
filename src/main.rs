@@ -1,11 +1,6 @@
 use clap::Parser;
-use crate::module::Module;
-use crate::module::ModuleError;
 
-mod version;
-mod module;
-mod local;
-mod toml;
+use modules::prelude::*;
 
 
 #[derive(Parser, Debug)]
@@ -15,16 +10,22 @@ struct Args {
     flags: String,
 
     /// The Module to install
-    module: String,
+    module: Option<String>,
 }
 
 fn main() -> Result<(), ModuleError> {
     let args = Args::parse();
-    let module = Module::new(args.module)?;
+    
+    if args.flags == "freeze" {
+        println!("{}", Local::get_all()?);
+        return Ok(());
+    }
+
     let flags: &[char] = &args
-                            .flags
-                            .chars()
-                            .collect::<Vec<char>>();
+    .flags
+    .chars()
+    .collect::<Vec<char>>();
+    let module = Module::new(args.module.unwrap_or("".to_owned()))?;
     match flags {
         ['S', 'y', 'u'] => {
             println!("Upgrading all");
