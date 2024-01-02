@@ -1,0 +1,1 @@
+window.ALL_CRATES = ["cpi","equivalent","hashbrown","indexmap","proc_macro2","quote","serde","serde_derive","serde_spanned","syn","toml","toml_datetime","toml_edit","unicode_ident","winnow"];
