@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["module_error","module_struct","toml"]};

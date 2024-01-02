@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["version_error","version_options","version_struct"]};

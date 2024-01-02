@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"constant":["METADATA_FILE"],"enum":["TomlError"],"struct":["LocalManifest"]};
