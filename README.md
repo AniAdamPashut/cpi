@@ -5,10 +5,10 @@
 
 ## Todo
 - add the frontend (cli) (like pacman)
-- split code to workspaces
 - Make code rustier
 - Get it on a server
 - Maybe upload
+- ~~split code to workspaces~~
 - ~~Use TOML to store metadata~~
 - ~~Implement version tracking (ooo scary)~~
 - ~~Make the Module.install method better (kinda confused by it though less relevant for current progression)~~
@@ -17,7 +17,7 @@
 ## How does this work?
 ### you should have a directory structure created by the cprojmgr
 
-### in the makefile:
+### example makefile:
 ```makefile
 CC = gcc
 LANG = c
