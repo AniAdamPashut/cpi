@@ -18,6 +18,7 @@ idk if imma make it better than it is before i get it on a server <br>
 - `make` and run
 
 ## Todo
+- test this properly
 - Make code rustier
 - Get it on a server
 - Maybe upload
