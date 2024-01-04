@@ -21,7 +21,7 @@ idk if imma make it better than it is before i get it on a server <br>
 - Make code rustier
 - Get it on a server
 - Maybe upload
-- ~~add the frontend (cli) (like pacman) ~~
+- ~~add the frontend (cli) (like pacman)~~
 - ~~split code to workspaces~~
 - ~~Use TOML to store metadata~~
 - ~~Implement version tracking (ooo scary)~~
