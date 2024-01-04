@@ -10,6 +10,7 @@ use crate::toml::{PackageManifest, Dependency, TomlError};
 use super::ModuleError;
 
 const PATH: &str = "/opt/clibs";
+const PACKAGE_METADATA: &str = "metadata.toml";
 
 #[derive(Debug, Clone)]
 pub struct Module {
@@ -78,7 +79,7 @@ impl Module {
         match Local::is_installed(self) {
             Ok(boolean) => {
                 if !boolean {
-                    println!("not installed");
+                    println!("The package {} is not installed", self.name);
                     return Ok(())
                 }
             },
@@ -88,9 +89,17 @@ impl Module {
         fs::remove_file(Path::new(&format!("./build/libs/headers/{}.h", self.name)))?;
 
         Local::remove(self)?;
+
+        println!("Removed {}", self.name);
         Ok(())
     }
     
+    pub fn get_info(&self) -> std::io::Result<String> {
+        let mut path = self.path.clone();
+        
+        path.push(PACKAGE_METADATA);
+        fs::read_to_string(&path)
+    }
     fn install_dependencies(&self) -> Result<(), Error>{
         self.dependencies.iter().for_each(|f| f.install().unwrap());
         Ok(())

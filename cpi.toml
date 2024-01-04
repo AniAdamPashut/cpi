@@ -1,12 +1,6 @@
+dependencies = []
+
 [package]
 name = "example"
 version = "0.1.0"
 author = "benAmi"
-
-[[dependencies]]
-name = "example"
-version = "0.2.0"
-
-[[dependencies]]
-name = "linkedlist"
-version = "0.1.0"
