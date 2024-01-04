@@ -3,11 +3,25 @@
 > Just a simple cli tool to manage packages in c
 > (kinda like pip)
 
+Kinda finished with this <br>
+idk if imma make it better than it is before i get it on a server <br>
+
+## Example:
+
+**this will not work if you don't have the `/opt/clibs` folder like I have**
+
+- do `cargo build`
+- cd into the `example` folder
+- the exe is `../target/debug/cli`
+- try to make and run (will not work)
+- do `exe -S linkedlist`
+- `make` and run
+
 ## Todo
-- add the frontend (cli) (like pacman)
 - Make code rustier
 - Get it on a server
 - Maybe upload
+- ~~add the frontend (cli) (like pacman) ~~
 - ~~split code to workspaces~~
 - ~~Use TOML to store metadata~~
 - ~~Implement version tracking (ooo scary)~~
@@ -49,20 +63,3 @@ ${BUILD}/objs/%.o: ${SRC}/%.c
 ## why in rust??
 *the memes* <br>
 (to lazy to implement HashSet) <br>
-
-
-## How a module would be stored
-```
-/module-name
-    /0.1.0 # old version number
-        module-name.c # old files
-        module-name.h
-        module-name.so
-        metadata.toml
-    # Current Version
-    module-name.c # C source file
-    module-name.h # Header source file
-    module-name.so # Shared Object file
-    metadata.toml
-```
-    

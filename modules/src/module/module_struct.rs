@@ -104,6 +104,28 @@ impl Module {
         self.dependencies.iter().for_each(|f| f.install().unwrap());
         Ok(())
     }
+    
+    pub fn get_list_of_all_modules() -> Vec<Module> {
+        let path: PathBuf = PATH.into();
+        match fs::read_dir(path) {
+            Ok(entries) => {
+                entries
+                .filter_map(|entry| 
+                    entry.ok()
+                    .and_then(|entry| 
+                        entry
+                            .file_name()
+                            .into_string()
+                            .ok()))
+                .filter_map(|it| Module::new(it).ok())
+                .collect()
+            }
+            Err(_) => {
+                panic!("BRUH WE FUCKED UP");
+            }
+        }
+        
+    }
 }
 
 impl From<&Module> for Dependency {

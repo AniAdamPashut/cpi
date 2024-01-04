@@ -86,13 +86,24 @@ fn main() {
         }
         Some(("query", query_matches)) => {
             if let Some(packages) = query_matches.get_many::<String>("info") {
-                packages
+                let message = packages
                 .map(|string| string.to_owned())
                 .filter_map(|it| Module::new(it).ok())
                 .filter_map(|module| module.get_info().ok())
-                .for_each(|it| println!("\n=============================\n{}\n=============================\n", it.trim()));
+                .map(|it| it.trim().to_owned())
+                .collect::<Vec<String>>()
+                .join("\n===============\n");
+
+                println!("{}", message)
             } else {
-                println!("Displaying all locally installed packages...");
+                let asd = Module::get_list_of_all_modules()
+                .iter()
+                .filter_map(|it| it.get_info().ok())
+                .map(|it| it.trim().to_owned())
+                .collect::<Vec<String>>()
+                .join("\n===============\n");
+        
+                println!("{}", asd);
             }
         }
 
