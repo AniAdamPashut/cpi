@@ -35,6 +35,7 @@ idk if imma make it better than it is before i get it on a server <br>
 - ### Sync mode `-S` or `--sync`
 	arguments:
 	- `package` -  A conditional argument conflicting with `toml`. The packages to install <br>
+
 	flags:
 	- `info` - grabs the toml file of the module
 	- `toml` - installs all the modules mentioned as dependencies in the `cpi.toml` file
