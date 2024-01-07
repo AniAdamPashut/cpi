@@ -49,7 +49,26 @@ idk if imma make it better than it is before i get it on a server <br>
 ## How does this work?
 ### you should have a directory structure created by the cprojmgr
 
-### example makefile:
+### How to set this up
+
+this shows how to create a simple `linkedlist` module
+
+- create a folder in `/opt` called `clibs` `mkdir /opt/clibs`
+- in there you can create a folder for the module `mkdir /opt/clibs/linkedlist`
+- now this requires 3 files but i like to have 4. the required are `xx.h`, `xx.so`, `metadata.toml`, and the rest are `xx.c` and `xx.o`. <br> I will leave the implementation to you though
+- The `metadata.toml` includes some metadata about the package. Example:
+```toml
+title = "linkedlist"
+version = "0.1.0"
+author = "you probably"
+
+dependencies = []
+
+```
+- That's it. you can just use the `cpi -S linkedlist` to install it.
+
+
+### Example for a makefile that compiles and links this code:
 ```makefile
 CC = gcc
 LANG = c
