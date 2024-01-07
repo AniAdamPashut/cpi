@@ -2,6 +2,7 @@ use std::{collections::HashSet, fs};
 use serde::{Deserialize, Serialize};
 
 use crate::module::Module;
+use crate::prelude::ModuleError;
 use crate::toml::{Dependency, TomlError};
 
 const METADATA_FILE: &str = "./cpi.toml";
@@ -66,5 +67,17 @@ impl Local {
             buffer += format!("{}=={}", dep.name, dep.version).as_str();
         }
         Ok(buffer)
+    }
+
+    pub fn install_all() -> Result<(), ModuleError> {
+        let content = fs::read_to_string(METADATA_FILE)?;
+        let manifest: Local = toml::from_str(&content)?;
+        if manifest.dependencies.is_none() {
+            return Ok(())
+        }
+        for dep in manifest.dependencies.unwrap() {
+            dep.install()?;
+        }
+        Ok(())
     }
 }

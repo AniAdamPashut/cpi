@@ -41,6 +41,14 @@ fn main() {
                         .help("view package information"),
                 )
                 .arg(
+                    Arg::new("toml")
+                        .long("toml")
+                        .short('t')
+                        .action(ArgAction::SetTrue)
+                        .help("Download dependencies from the cpi.toml file")
+                        .conflicts_with_all(vec!["info", "package"])
+                )
+                .arg(
                     Arg::new("package")
                         .help("packages")
                         .action(ArgAction::Set)
@@ -66,6 +74,14 @@ fn main() {
 
     match matches.subcommand() {
         Some(("sync", sync_matches)) => {
+            if sync_matches.get_flag("toml") {
+                match Local::install_all() {
+                    Ok(()) => println!("All modules were installed successfully"),
+                    Err(e) => println!("An error occurred {:?}", e)
+                }
+                return;
+            }
+
             let packages: Vec<_> = sync_matches
                 .get_many::<String>("package")
                 .expect("is present")

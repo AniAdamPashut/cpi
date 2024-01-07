@@ -15,6 +15,12 @@ impl From<std::io::Error> for ModuleError {
     }
 }
 
+impl From<toml::de::Error> for ModuleError {
+    fn from(value: toml::de::Error) -> Self {
+        Self::DeserializationError(value)
+    }
+}
+
 impl From<TomlError> for ModuleError {
     fn from(value: TomlError) -> Self {
         match value {

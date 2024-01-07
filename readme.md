@@ -1,7 +1,7 @@
 # C Package Index
 
 > Just a simple cli tool to manage packages in c
-> (kinda like pip)
+> (kinda like pacman & pip)
 
 Kinda finished with this <br>
 idk if imma make it better than it is before i get it on a server <br>
@@ -28,6 +28,22 @@ idk if imma make it better than it is before i get it on a server <br>
 - ~~Implement version tracking (ooo scary)~~
 - ~~Make the Module.install method better (kinda confused by it though less relevant for current progression)~~
 
+## Simple example can be found in the example folder
+
+## The different flags and modes (heavily influenced by pacman)
+
+- ### Sync mode `-S` or `--sync`
+	arguments:
+	- `package` -  A conditional argument conflicting with `toml`. The packages to install
+	flags:
+	- `info` - grabs the toml file of the module
+	- `toml` - installs all the modules mentioned as dependencies in the `cpi.toml` file
+- ### Remove mode `-R` or `--remove`
+	arguments:
+	- `package` - The packages to remove
+- ### Query mode `-Q` or `--query`
+	flags:
+	- `info` - Takes one or more packages and prints the toml file of each. This has the same output as `-Si` for now...
 
 ## How does this work?
 ### you should have a directory structure created by the cprojmgr
